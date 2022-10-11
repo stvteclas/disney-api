@@ -1,9 +1,10 @@
-package com.teclas.disney.model;
+package com.teclas.disney.model.entity;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,4 +18,6 @@ public class Genre {
     private Long genreId;
     @Column(name = "name")
     private String name;
+    @OneToMany(mappedBy = "genre")
+    private List<Movie> movies;
 }

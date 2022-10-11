@@ -1,51 +1,26 @@
 package com.teclas.disney.controller;
 
-import com.teclas.disney.model.Actor;
-import com.teclas.disney.model.Movie;
-import com.teclas.disney.service.MovieService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
+import com.teclas.disney.model.dto.MovieDto;
+import com.teclas.disney.repository.MovieRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+@Slf4j
+@RequiredArgsConstructor
 @RestController
-@RequestMapping()
+@RequestMapping( "/api/movies" )
 public class MovieController {
-    private MovieService movieService;
 
-    public MovieController(MovieService movieService){
-        super();
-        this.movieService = movieService;
-    }
+    private final MovieRepository movieRepository;
 
-    //build create movie REST API
-    @PostMapping("/movie/save")
-    public ResponseEntity<Movie> saveMovie(@RequestBody Movie movie){
-        return new ResponseEntity<Movie>(movieService.saveMovie(movie), HttpStatus.CREATED);
-    }
-    // build get all Movies REST API
-    @GetMapping("/movies")
-    public List<Movie> getAllMovies(){
-        return movieService.getAllMovies();
-    }
-
-    //build get movie by id REST API
-    @GetMapping("{id}")
-    public ResponseEntity<Movie> getMovieById(@PathVariable("id") long movieid){
-        return new ResponseEntity<Movie>(movieService.getMovieById(movieid), HttpStatus.OK);
-    }
-
-    //build update actor REST API
-    @PutMapping("{id}")
-    public ResponseEntity<Movie> updateMovie(@PathVariable("id") long id , @RequestBody Movie movie){
-        return new ResponseEntity<Movie>( movieService.updateMovie(movie, id) , HttpStatus.OK);
-    }
-
-    //build delete Movie REST API
-    @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteMovie(@PathVariable ("id") long id){
-        movieService.deleteMovie(id);
-        return new ResponseEntity<String>("Movie delete successfully", HttpStatus.OK);
+    @GetMapping( "/{id}" )
+    public MovieDto getMovieDetail( @PathVariable Long id ) {
+        var movie = movieRepository.findById( id ).get();
+        return new MovieDto( movie );
     }
 }
+

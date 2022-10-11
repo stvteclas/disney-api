@@ -1,50 +1,42 @@
 package com.teclas.disney.controller;
 
-import com.teclas.disney.model.Actor;
-import com.teclas.disney.service.ActorService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.teclas.disney.model.dto.ActorDto;
+import com.teclas.disney.model.entity.Actor;
+import com.teclas.disney.repository.ActorRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
+@Slf4j
+@RequiredArgsConstructor
 @RestController
-@RequestMapping()
+@RequestMapping( "/api/characters" )
 public class ActorController {
-    private ActorService actorService;
 
-    public ActorController(ActorService actorService) {
-        super();
-        this.actorService = actorService;
+    private final ActorRepository actorRepository;
+
+    @GetMapping( "/{id}" )
+    public ActorDto getActorDetail( @PathVariable Long id ) {
+        var actor = actorRepository.findById( id ).get();
+
+        return new ActorDto( actor );
     }
 
-    //build create actor REST API
-    @PostMapping("/character/save")
-    public ResponseEntity<Actor> saveActor(@RequestBody Actor actor){
-        return new ResponseEntity<Actor>(actorService.saveActor(actor), HttpStatus.CREATED);
-    }
-    // build get all Actors REST API
-    @GetMapping("/characters")
-public List<Actor> getAllActors(){
-        return actorService.getAllActors();
-}
-
-//build get actor by id REST API
-    @GetMapping("{id}")
-    public ResponseEntity<Actor> getActoyById(@PathVariable("id") long actorid){
-    return new ResponseEntity<Actor>(actorService.getActorById(actorid), HttpStatus.OK);
+    // TODO: Search for a bulkified option to build the creation method
+    @PostMapping
+    public void createCharacters( @RequestBody Actor actor ) {
+        log.info( "Post Movie character: " + actor );
     }
 
-    //build update actor REST API
-    @PutMapping("{id}")
-    public ResponseEntity<Actor> updateActor(@PathVariable("id") long id , @RequestBody Actor actor){
-        return new ResponseEntity<Actor>( actorService.updateActor(actor, id) , HttpStatus.OK);
+    @PatchMapping( "/{id}" )
+    public void updateCharacter( @RequestBody Actor actor, @PathVariable Long id ) {
+        log.info( "Patch Movie character: " + actor );
+        log.info( "Patch character id: " + id );
     }
 
-    //build delete Actor REST API
-    @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteActor(@PathVariable ("id") long id){
-        actorService.deleteActor(id);
-        return new ResponseEntity<String>("Actor delete successfully", HttpStatus.OK);
+    @DeleteMapping( "/{id}" )
+    public void deleteCharacter( @PathVariable Long id ) {
+        log.info( "Delete character id: " + id );
     }
+
 }

@@ -1,35 +1,40 @@
-package com.teclas.disney.model;
+package com.teclas.disney.model.entity;
 
-import lombok.Data;
-import org.springframework.context.annotation.Lazy;
+
+import lombok.Getter;
+import lombok.Setter;
+
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Collection;
+
 import java.util.List;
 
 import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.FetchType.LAZY;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "actor")
 public class Actor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="character_id")
+    @Column(name="actor_id")
     private Long id;
-    @Column(name = "image", nullable = false)
+
     private String image;
-    @Column(name = "name")
+
     private String name;
-    @Column(name = "age")
+
     private String age;
-    @Column(name = "weight")
-    private String weight;
-    @Column(name = "history")
-    private String history;
+
+    private Double weight;
+
+    private String story;
     @ManyToMany(mappedBy = "actors" , fetch = LAZY, cascade=PERSIST)
     private List<Movie> movies = new ArrayList<>();
+
+
 
 }

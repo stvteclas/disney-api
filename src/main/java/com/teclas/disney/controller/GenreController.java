@@ -1,21 +1,20 @@
 package com.teclas.disney.controller;
 
-import com.teclas.disney.model.Actor;
-import com.teclas.disney.model.Genre;
-import com.teclas.disney.service.GenreService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.teclas.disney.model.entity.Genre;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+@Slf4j
+@RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/genres")
+@RequestMapping( "/api/genres" )
 public class GenreController {
-    private GenreService genreService;
+
     @PostMapping
-    public ResponseEntity<Genre> createGenre(@RequestBody Genre genre){
-        return new ResponseEntity<Genre>(genreService.createGenre(genre), HttpStatus.CREATED);
+    public void createGenres( @RequestBody Genre genre ) {
+        log.info( "Post genres: " + genre );
     }
 }

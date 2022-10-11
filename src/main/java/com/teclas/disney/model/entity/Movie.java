@@ -1,7 +1,10 @@
-package com.teclas.disney.model;
+package com.teclas.disney.model.entity;
 
-import com.teclas.disney.exception.ResourceNotFoundException;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import com.teclas.disney.model.entity.Actor;
+import com.teclas.disney.model.entity.Genre;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,12 +15,12 @@ import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 
-@Data
+
 @Getter
 @Setter
 @Entity
 @Table(name = "movie")
-
+@JsonIdentityInfo( generator = ObjectIdGenerators.UUIDGenerator.class, property="@UUID")
 public class Movie {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -26,9 +29,7 @@ public class Movie {
     private String title;
     @Column(name = "release_date")
     private String releaseDate;
-    @Column(name = "rating")
     private int rating;
-
     @ManyToOne(fetch = LAZY, optional = false)
     @JoinColumn(name = "genre_id", nullable = false)
     private Genre genre;
@@ -41,10 +42,5 @@ public class Movie {
 
 
 
-    public Movie(Movie movie) {
-        setMovieId(movie.getMovieId());
-        setTitle(movie.getTitle());
-        setReleaseDate(movie.getReleaseDate());
-        setRating(movie.getRating());
-    }
+
 }
