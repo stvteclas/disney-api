@@ -16,7 +16,7 @@ public class DataSourceConfig {
         dataSourceBuilder.driverClassName("org.h2.Driver");
         dataSourceBuilder.url("jdbc:h2:mem:testdb");
         dataSourceBuilder.username("stvteclas");
-        dataSourceBuilder.password("pasword");
+        dataSourceBuilder.password("password");
         return dataSourceBuilder.build();
     }
 }

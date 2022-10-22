@@ -23,8 +23,9 @@ public class ActorController {
     }
 
     // TODO: Search for a bulkified option to build the creation method
-    @PostMapping
+    @PostMapping("/create")
     public void createCharacters( @RequestBody Actor actor ) {
+
         log.info( "Post Movie character: " + actor );
     }
 
@@ -36,6 +37,7 @@ public class ActorController {
 
     @DeleteMapping( "/{id}" )
     public void deleteCharacter( @PathVariable Long id ) {
+
         log.info( "Delete character id: " + id );
     }
 
